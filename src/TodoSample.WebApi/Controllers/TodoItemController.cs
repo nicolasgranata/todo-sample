@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TodoSample.ApplicationCore.Entities;
+using TodoSample.ApplicationCore.Services.Interfaces;
 
 namespace TodoSample.WebApi.Controllers
 {
@@ -11,36 +10,53 @@ namespace TodoSample.WebApi.Controllers
     [ApiController]
     public class TodoItemController : ControllerBase
     {
-        // GET: api/TodoItem
+        private readonly ITodoItemService _todoItemService;
+        public TodoItemController(ITodoItemService todoItemService)
+        {
+            _todoItemService = todoItemService;
+        }
+            
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<TodoItem> Get()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(_todoItemService.Get());
         }
 
-        // GET: api/TodoItem/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var todoItem = _todoItemService.Get(id);
+
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(todoItem);
         }
 
-        // POST: api/TodoItem
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<TodoItem>> Post(TodoItem todoItem)
         {
+            var todoItemCreated = await _todoItemService.CreateAsync(todoItem);
+
+            return Created("Get", todoItemCreated);
         }
 
-        // PUT: api/TodoItem/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult<int>> Put(int id, TodoItem todoItem)
         {
+            await _todoItemService.UpdateAsync(todoItem);
+
+            return Ok(id);
         }
 
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            await _todoItemService.DeleteAsync(id);
+
+            return Ok();
         }
     }
 }

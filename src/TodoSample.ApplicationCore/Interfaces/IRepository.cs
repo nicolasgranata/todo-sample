@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace TodoSample.ApplicationCore.Interfaces
 {
@@ -10,7 +11,7 @@ namespace TodoSample.ApplicationCore.Interfaces
 
         TEntity Get<TKey>(TKey id) where TKey : IComparable, IFormattable;
 
-        TEntity Create(TEntity entity);
+        TEntity Add(TEntity entity);
 
         TEntity Update(TEntity entity);
 

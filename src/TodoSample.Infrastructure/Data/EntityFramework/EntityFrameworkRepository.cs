@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TodoSample.ApplicationCore.Interfaces;
 
 namespace TodoSample.Infrastructure.Data.EntityFramework
@@ -25,7 +26,7 @@ namespace TodoSample.Infrastructure.Data.EntityFramework
             return _dbContext.Set<TEntity>().Find(id);
         }
 
-        public TEntity Create(TEntity entity)
+        public TEntity Add(TEntity entity)
         {
             _dbContext.Set<TEntity>().Add(entity);
 
