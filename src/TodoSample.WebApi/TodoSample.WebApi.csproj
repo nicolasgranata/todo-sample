@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TodoSample.ApplicationCore\TodoSample.ApplicationCore.csproj" />
-    <ProjectReference Include="..\TodoSample.DIContainer\TodoSample.DIContainer.csproj" />
+    <ProjectReference Include="..\TodoSample.Services\TodoSample.Services.csproj" />
   </ItemGroup>
 
 

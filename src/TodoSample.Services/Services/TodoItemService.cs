@@ -6,7 +6,7 @@ using TodoSample.ApplicationCore.Entities;
 using TodoSample.ApplicationCore.Interfaces;
 using TodoSample.ApplicationCore.Services.Interfaces;
 
-namespace TodoSample.ApplicationCore.Services
+namespace TodoSample.Services.Services
 {
     public class TodoItemService : ITodoItemService
     {

@@ -2,9 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using TodoSample.ApplicationCore.Entities;
 using TodoSample.ApplicationCore.Interfaces;
+using TodoSample.Infrastructure.Data.EntityFramework;
 using TodoSample.Infrastructure.Data.Repositories;
 
-namespace TodoSample.Infrastructure.Data.EntityFramework
+namespace TodoSample.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtension
     {
