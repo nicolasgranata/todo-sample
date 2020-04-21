@@ -1,0 +1,12 @@
+version: '3.0'
+services:  
+  webapi:
+    image: nicolasgranata/todosample
+    build:
+      context: .
+      dockerfile: src/TodoSample.WebApi/Dockerfile
+    ports:
+        - 62500:80
+        - 62501:443
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
