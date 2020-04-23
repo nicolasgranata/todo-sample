@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TodoSample.ApplicationCore.Entities;
+using TodoSample.ApplicationCore.Models;
 using TodoSample.ApplicationCore.Services.Interfaces;
 
 namespace TodoSample.WebApi.V1.Controllers
@@ -46,9 +47,9 @@ namespace TodoSample.WebApi.V1.Controllers
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TodoItem))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<TodoItem>> Post(TodoItem todoItem)
+        public async Task<ActionResult<TodoItem>> Post(TodoItemCreate todoItemCreate)
         {
-            var todoItemCreated = await _todoItemService.CreateAsync(todoItem);
+            var todoItemCreated = await _todoItemService.CreateAsync(todoItemCreate);
 
             return Created("Get", todoItemCreated);
         }
@@ -57,9 +58,10 @@ namespace TodoSample.WebApi.V1.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<int>> Put(int id, TodoItem todoItem)
+        public async Task<ActionResult<int>> Put(int id, TodoItemUpdate todoItemUpdate)
         {
-            await _todoItemService.UpdateAsync(todoItem);
+            todoItemUpdate.Id = id;
+            await _todoItemService.UpdateAsync(todoItemUpdate);
 
             return Ok(id);
         }

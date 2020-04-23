@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using TodoSample.ApplicationCore.Entities;
 using TodoSample.ApplicationCore.Interfaces;
 using TodoSample.Infrastructure.Data.EntityFramework;
 using TodoSample.Infrastructure.Data.Repositories;
+using TodoSample.Services.Mapper;
 using TodoSample.Services.Services;
 using Xunit;
 
@@ -33,7 +33,16 @@ namespace TodoSample.UnitTests.Services
 
             var repository = new TodoItemRepository(dbContext);
             var unitOfWork = new Mock<IUnitOfWork>();
-            var todoItemService = new TodoItemService(repository, unitOfWork.Object);
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new TodoItemProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+
+
+            var todoItemService = new TodoItemService(repository, unitOfWork.Object, mapper);
 
             // Act
             var result = todoItemService.Get(1);
@@ -63,7 +72,15 @@ namespace TodoSample.UnitTests.Services
 
             var repository = new TodoItemRepository(dbContext);
             var unitOfWork = new Mock<IUnitOfWork>();
-            var todoItemService = new TodoItemService(repository, unitOfWork.Object);
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new TodoItemProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+
+            var todoItemService = new TodoItemService(repository, unitOfWork.Object, mapper);
 
             // Act Assert
             Assert.Throws<ArgumentException>(() => todoItemService.Get(2));

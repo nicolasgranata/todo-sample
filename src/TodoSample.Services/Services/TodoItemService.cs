@@ -1,9 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TodoSample.ApplicationCore.Entities;
 using TodoSample.ApplicationCore.Interfaces;
+using TodoSample.ApplicationCore.Models;
 using TodoSample.ApplicationCore.Services.Interfaces;
 
 namespace TodoSample.Services.Services
@@ -12,23 +14,29 @@ namespace TodoSample.Services.Services
     {
         private readonly IRepository<TodoItem> _todoItemRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public TodoItemService(IRepository<TodoItem> todoItemRepository, IUnitOfWork unitOfWork)
+        public TodoItemService(IRepository<TodoItem> todoItemRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _todoItemRepository = todoItemRepository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public TodoItem Create(TodoItem todoItem)
+        public TodoItem Create(TodoItemCreate todoItemCreate)
         {
+            var todoItem = _mapper.Map<TodoItem>(todoItemCreate);
+
             var todoItemCreated = _todoItemRepository.Add(todoItem);
             _unitOfWork.Save();
 
             return todoItemCreated;
         }
 
-        public async Task<TodoItem> CreateAsync(TodoItem todoItem)
+        public async Task<TodoItem> CreateAsync(TodoItemCreate todoItemCreate)
         {
+            var todoItem = _mapper.Map<TodoItem>(todoItemCreate);
+
             var todoItemCreated =  _todoItemRepository.Add(todoItem);
             await _unitOfWork.SaveAsync();
 
@@ -78,15 +86,17 @@ namespace TodoSample.Services.Services
             return _todoItemRepository.Get().ToList();
         }
 
-        public void Update(TodoItem todoItem)
+        public void Update(TodoItemUpdate todoItemUpdate)
         {
+            var todoItem = _mapper.Map<TodoItem>(todoItemUpdate);
             _todoItemRepository.Update(todoItem);
             _unitOfWork.Save();
         }
 
-        public async Task UpdateAsync(TodoItem todoItem)
+        public async Task UpdateAsync(TodoItemUpdate todoItemUpdate)
         {
-             _todoItemRepository.Update(todoItem);
+            var todoItem = _mapper.Map<TodoItem>(todoItemUpdate);
+            _todoItemRepository.Update(todoItem);
             await _unitOfWork.SaveAsync();
         }
     }
