@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
-using TodoSample.ApplicationCore.Entities;
 using TodoSample.ApplicationCore.Interfaces;
-using TodoSample.Infrastructure.Data.EntityFramework;
 using TodoSample.Infrastructure.Data.Repositories;
 using TodoSample.Services.Mapper;
 using TodoSample.Services.Services;
@@ -12,26 +9,21 @@ using Xunit;
 
 namespace TodoSample.UnitTests.Services
 {
+    [Collection("DbContext collection")]
     public class TodoItemServiceTest 
-    { 
+    {
+        private readonly DbContextFixture _dbContextFixture;
+
+        public TodoItemServiceTest(DbContextFixture dbcontextFixture)
+        {
+            _dbContextFixture = dbcontextFixture;
+        }
+
         [Fact]
         public void Get_ById_ReturnsTodoItem()
         {
             // Arrange      
-            var dbContextOptions = new DbContextOptionsBuilder<TodoSampleDbContext>();
-            dbContextOptions.UseInMemoryDatabase("UnitTestDatabase");
-
-            var dbContext = new TodoSampleDbContext(dbContextOptions.Options);
-            dbContext.Add(new TodoItem
-            {
-                Id = 1,
-                Name = "First item",
-                CreatedAt = DateTime.UtcNow,
-                IsCompleted = false
-            });
-            dbContext.SaveChanges();
-
-            var repository = new TodoItemRepository(dbContext);
+            var repository = new TodoItemRepository(_dbContextFixture.TodoSampleDbContext);
             var unitOfWork = new Mock<IUnitOfWork>();
 
             var mappingConfig = new MapperConfiguration(mc =>
@@ -57,20 +49,7 @@ namespace TodoSample.UnitTests.Services
         public void Get_ById_ReturnsArgumentException()
         {
             // Arrange      
-            var dbContextOptions = new DbContextOptionsBuilder<TodoSampleDbContext>();
-            dbContextOptions.UseInMemoryDatabase("UnitTestDatabase");
-
-            var dbContext = new TodoSampleDbContext(dbContextOptions.Options);
-            dbContext.Add(new TodoItem
-            {
-                Id = 1,
-                Name = "First item",
-                CreatedAt = DateTime.UtcNow,
-                IsCompleted = false
-            });
-            dbContext.SaveChanges();
-
-            var repository = new TodoItemRepository(dbContext);
+            var repository = new TodoItemRepository(_dbContextFixture.TodoSampleDbContext);
             var unitOfWork = new Mock<IUnitOfWork>();
 
             var mappingConfig = new MapperConfiguration(mc =>
