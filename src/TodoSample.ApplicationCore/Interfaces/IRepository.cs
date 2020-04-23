@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TodoSample.ApplicationCore.Entities;
 
 namespace TodoSample.ApplicationCore.Interfaces
 {
-    public interface IRepository<TEntity> where TEntity : class, IEntity
+    public interface IRepository<TEntity> where TEntity : Entity
     {
         IEnumerable<TEntity> Get();
 
-        TEntity Get<TKey>(TKey id) where TKey : IComparable, IFormattable;
+        TEntity Get(long id);
 
         TEntity Add(TEntity entity);
 

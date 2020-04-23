@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+using TodoSample.ApplicationCore.Entities;
 using TodoSample.ApplicationCore.Interfaces;
 
 namespace TodoSample.Infrastructure.Data.EntityFramework
 {
-    public abstract class EntityFrameworkRepository<TEntity, TContext> : IRepository<TEntity> where TEntity : class, IEntity where TContext : DbContext
+    public abstract class EntityFrameworkRepository<TEntity, TContext> : IRepository<TEntity> where TEntity : Entity where TContext : DbContext
     {
         protected TContext _dbContext { get; private set; }
 
@@ -21,7 +19,7 @@ namespace TodoSample.Infrastructure.Data.EntityFramework
             return _dbContext.Set<TEntity>();
         }
 
-        public TEntity Get<TKey>(TKey id) where TKey : IComparable, IFormattable
+        public TEntity Get(long id)
         {
             return _dbContext.Set<TEntity>().Find(id);
         }
