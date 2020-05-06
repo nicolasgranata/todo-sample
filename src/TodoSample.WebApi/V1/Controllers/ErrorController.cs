@@ -12,11 +12,17 @@ namespace TodoSample.WebApi.V1.Controllers
         public IActionResult Error()
         {
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
-            var errorMessage = context.Error.Message;
+            string errorMessage = "No message was found.";
 
-            Log.Logger.Error(errorMessage, context.Error);
+            if (context?.Error != null)
+            {
+                errorMessage = !string.IsNullOrWhiteSpace(context.Error.Message) ? context.Error.Message : errorMessage;
+                Log.Logger.Error($"An unhandled exception occurred:{errorMessage}", context.Error);
+            }
 
-            return Problem(detail: errorMessage, title: "An Unhandled Exception Occurred.");
+            return Problem(
+                detail: errorMessage,
+                title: "An unhandled exception occurred.");
         }
     }
 }
