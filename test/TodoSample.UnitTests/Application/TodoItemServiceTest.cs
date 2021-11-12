@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Moq;
-using System;
+using TodoSample.Application.Interfaces;
+using TodoSample.Application.Services;
+using TodoSample.Domain.Entities;
 using TodoSample.Services.Mapper;
 using Xunit;
 
@@ -11,16 +13,16 @@ namespace TodoSample.UnitTests.Services
     {
         private readonly DbContextFixture _dbContextFixture;
 
-        public TodoItemServiceTest(DbContextFixture dbcontextFixture)
+        public TodoItemServiceTest(DbContextFixture dbContextFixture)
         {
-            _dbContextFixture = dbcontextFixture;
+            _dbContextFixture = dbContextFixture;
         }
 
         [Fact]
         public void Get_ById_ReturnsTodoItem()
         {
             // Arrange      
-            var repository = new TodoItemRepository(_dbContextFixture.TodoSampleDbContext);
+            var repository = new Mock<IRepository<TodoItem>>();
             var unitOfWork = new Mock<IUnitOfWork>();
 
             var mappingConfig = new MapperConfiguration(mc =>
@@ -30,8 +32,10 @@ namespace TodoSample.UnitTests.Services
 
             IMapper mapper = mappingConfig.CreateMapper();
 
+            repository.Setup(r => r.Get(1)).Returns(GetTodoItemById(1));    
 
-            var todoItemService = new TodoItemService(repository, unitOfWork.Object, mapper);
+
+            var todoItemService = new TodoItemService(repository.Object, unitOfWork.Object, mapper);
 
             // Act
             var result = todoItemService.Get(1);
@@ -43,10 +47,10 @@ namespace TodoSample.UnitTests.Services
         }
 
         [Fact]
-        public void Get_ById_ReturnsArgumentException()
+        public void Get_ById_ReturnsNull()
         {
             // Arrange      
-            var repository = new TodoItemRepository(_dbContextFixture.TodoSampleDbContext);
+            var repository = new Mock<IRepository<TodoItem>>();
             var unitOfWork = new Mock<IUnitOfWork>();
 
             var mappingConfig = new MapperConfiguration(mc =>
@@ -56,10 +60,21 @@ namespace TodoSample.UnitTests.Services
 
             IMapper mapper = mappingConfig.CreateMapper();
 
-            var todoItemService = new TodoItemService(repository, unitOfWork.Object, mapper);
+            repository.Setup(r => r.Get(2)).Returns(GetTodoItemById(2));
 
-            // Act Assert
-            Assert.Throws<ArgumentException>(() => todoItemService.Get(2));
+            var todoItemService = new TodoItemService(repository.Object, unitOfWork.Object, mapper);
+
+            // Act
+            var result = todoItemService.Get(2);
+
+            // Assert
+            Assert.Null(result);
+        }
+
+
+        private TodoItem GetTodoItemById(long id)
+        {
+           return _dbContextFixture.TodoSampleDbContext.TodoItems.Find(id);
         }
     }
 }

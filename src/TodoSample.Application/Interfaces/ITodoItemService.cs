@@ -9,11 +9,11 @@ namespace TodoSample.Application.Interfaces
     {
         Task<TodoItem> CreateAsync(TodoItemCreate todoItemCreate);
         TodoItem Create(TodoItemCreate todoItemCreate);
-        TodoItem Get(int id);
+        TodoItem Get(long id);
         Task UpdateAsync(TodoItemUpdate todoItemUpdate);
         void Update(TodoItemUpdate todoItemUpdate);
-        Task DeleteAsync(int id);
-        void Delete(int id);
+        Task DeleteAsync(long id);
+        void Delete(long id);
         IEnumerable<TodoItem> Get();
     }
 }

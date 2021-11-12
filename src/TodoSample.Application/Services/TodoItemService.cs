@@ -42,33 +42,33 @@ namespace TodoSample.Application.Services
             return todoItemCreated;
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
             var todoItem = _todoItemRepository.Get(id);
 
             if(todoItem == null)
             {
-                throw new NotFoundException($"Item not found with id {id}");
+                throw new NotFoundException($"Item with id {id} not found");
             }
 
             _todoItemRepository.Delete(todoItem);
             _unitOfWork.Save();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(long id)
         {
             var todoItem = _todoItemRepository.Get(id);
 
             if (todoItem == null)
             {
-                throw new NotFoundException($"Item not found with id {id}");
+                throw new NotFoundException($"Item with id {id} not found");
             }
 
             _todoItemRepository.Delete(todoItem);
             await _unitOfWork.SaveAsync();
         }
 
-        public TodoItem Get(int id)
+        public TodoItem Get(long id)
         {
             var todoItem = _todoItemRepository.Get(id);
 

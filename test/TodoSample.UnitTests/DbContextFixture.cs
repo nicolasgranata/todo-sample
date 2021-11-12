@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using TodoSample.Domain.Entities;
-using TodoSample.Infrastructure.Data.EntityFramework;
+using TodoSample.Infrastructure.Persistence.EntityFramework;
 using Xunit;
 
 namespace TodoSample.UnitTests

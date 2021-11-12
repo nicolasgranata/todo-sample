@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\TodoSample.Application\TodoSample.Application.csproj" />
+    <ProjectReference Include="..\..\src\TodoSample.Infrastructure\TodoSample.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
