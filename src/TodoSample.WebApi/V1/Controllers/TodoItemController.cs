@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TodoSample.ApplicationCore.Entities;
-using TodoSample.ApplicationCore.Models;
-using TodoSample.ApplicationCore.Services.Interfaces;
+using TodoSample.Application.Interfaces;
+using TodoSample.Domain.Entities;
+using TodoSample.Domain.Models;
 
 namespace TodoSample.WebApi.V1.Controllers
 {
@@ -67,13 +67,13 @@ namespace TodoSample.WebApi.V1.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Delete(int id)
         {
             await _todoItemService.DeleteAsync(id);
 
-            return Ok();
+            return NoContent();
         }
     }
 }

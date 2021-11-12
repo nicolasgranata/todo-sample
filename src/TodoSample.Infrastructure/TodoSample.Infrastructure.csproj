@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TodoSample.ApplicationCore\TodoSample.ApplicationCore.csproj" />
+    <ProjectReference Include="..\TodoSample.Application\TodoSample.Application.csproj" />
   </ItemGroup>
 
 </Project>

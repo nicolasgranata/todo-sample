@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using TodoSample.Infrastructure.Logging;
+using TodoSample.Infrastructure.Extensions;
 using TodoSample.Services.Extensions;
+using TodoSample.WebApi.Middlewares;
 using TodoSample.WebApi.Swagger;
 
 namespace TodoSample.WebApi
@@ -24,26 +24,21 @@ namespace TodoSample.WebApi
         {
             services.AddControllers();
 
-            services.AddTodoSampleModule();
+            services.AddApplication();
 
             services.AddVersioning();
 
             services.AddSwagger();
 
             services.AddLoggingToPipeline();
+
+            services.AddEntityFramework();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/error");
-            }
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseHttpsRedirection();
 

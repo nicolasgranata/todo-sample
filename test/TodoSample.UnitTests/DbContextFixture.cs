@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using TodoSample.ApplicationCore.Entities;
+using TodoSample.Domain.Entities;
 using TodoSample.Infrastructure.Data.EntityFramework;
 using Xunit;
 
