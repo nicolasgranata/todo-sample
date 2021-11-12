@@ -6,6 +6,9 @@ The goal of this project is to be a starting point for clean architecture using 
 
 More information about clean architecture using ASP.NET Core ([here](https://docs.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures#clean-architecture)).
 
+## Versions
+[NET Core 3.1](https://github.com/nicolasgranata/todo-sample/releases/tag/net-core-3.1)
+
 
 <!-- USAGE EXAMPLES -->
 ## Usage
