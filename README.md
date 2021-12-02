@@ -17,7 +17,9 @@ You can run the application using Docker by executing the following command, ins
 
 `docker-compose up -d`
 
-Then you can browse to http://localhost:62500/swagger to test the endpoints.
+Then you can browse to http://localhost:63500/swagger to test the endpoints.
+
+If necessary, you can change the port by modifying the docker-compose.yml file.
 
 <!-- CONTRIBUTING -->
 ## Contributing

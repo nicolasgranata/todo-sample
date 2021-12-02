@@ -1,15 +1,15 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["src/TodoSample.WebApi/TodoSample.WebApi.csproj", "src/TodoSample.WebApi/"]
-COPY ["src/TodoSample.ApplicationCore/TodoSample.ApplicationCore.csproj", "src/TodoSample.ApplicationCore/"]
-COPY ["src/TodoSample.DIContainer/TodoSample.DIContainer.csproj", "src/TodoSample.DIContainer/"]
+COPY ["src/TodoSample.Application/TodoSample.Application.csproj", "src/TodoSample.Application/"]
+COPY ["src/TodoSample.Domain/TodoSample.Domain.csproj", "src/TodoSample.Domain/"]
 COPY ["src/TodoSample.Infrastructure/TodoSample.Infrastructure.csproj", "src/TodoSample.Infrastructure/"]
 RUN dotnet restore "src/TodoSample.WebApi/TodoSample.WebApi.csproj"
 COPY . .
